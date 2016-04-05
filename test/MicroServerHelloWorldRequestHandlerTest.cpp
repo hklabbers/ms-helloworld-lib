@@ -35,21 +35,27 @@
 // distributed under the Boost Software License 1.0. Please visit the
 // following url for more information: pocoproject.org/license.html.
 
-#include "../ms-helloworld-lib/MicroServerRequestHandlerProvider.h"
+#include "../ms-helloworld-lib/MicroServerHelloWorldRequestHandler.h"
+#include "mock/MockHTTPRequest.h"
+#include "mock/MockHTTPResponse.h"
 #include <gtest/gtest.h>
 
-namespace MicroServerRequestHandlerProviderTest {
+using microserver_mock::MockHTTPRequest;
+using microserver_mock::MockHTTPResponse;
+using testing::DefaultValue;
+using testing::NiceMock;
 
-    TEST(MicroServerRequestHandlerProviderTest, MicroServerHelloWorldRequestHandlerCorrectURI) {
-        ms_helloworld::MicroServerRequestHandlerProvider microServerRequestHandlerProvider;
-        HTTPRequestHandler* handler = microServerRequestHandlerProvider.getRequestHandler("/helloworld");
-        ASSERT_TRUE(handler);
+namespace MicroServerHelloWorldRequestHandlerTest {
+
+    TEST(MicroServerHelloWorldRequestHandlerTest, MicroServerHelloWorldRequestHandlerTestOutput) {
+        ms_helloworld::MicroServerHelloWorldRequestHandler microServerHelloWorldRequestHandler;
+
+        MockHTTPRequest mockHTTPRequest;
+        NiceMock<MockHTTPResponse> mockHTTPResponse;
+        std::stringstream defaultStream;
+        DefaultValue<std::ostream &>::Set(defaultStream);
+
+        microServerHelloWorldRequestHandler.handleRequest(mockHTTPRequest, mockHTTPResponse);
+        ASSERT_TRUE(true);
     }
-
-    TEST(MicroServerRequestHandlerProviderTest, MicroServerHelloWorldRequestHandlerWrongURI) {
-        ms_helloworld::MicroServerRequestHandlerProvider microServerRequestHandlerProvider;
-        HTTPRequestHandler* handler = microServerRequestHandlerProvider.getRequestHandler("/WrongURI");
-        ASSERT_FALSE(handler);
-    }
-
 }
